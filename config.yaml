@@ -1,0 +1,50 @@
+# Central config — everyone reads from here so class lists / paths / prompts
+# stay consistent across modules. Don't hardcode these elsewhere.
+
+model:
+  primary_backbone: "ViT-B/32"   # decided Day 1 by Person B's feasibility spike
+  fallback_backbone: "RN50"
+  prompt_templates:
+    - "a photo of a {class_name}"
+    - "a photo of a {class_name}, a type of truck"
+
+classes:
+  # display_name: [synset_id, clip_prompt_name]
+  garbage_truck:  { synset: n03417042, prompt_name: "garbage truck" }
+  moving_van:     { synset: n03796401, prompt_name: "moving van" }
+  pickup_truck:   { synset: n03930630, prompt_name: "pickup truck" }
+  trailer_truck:  { synset: n04467665, prompt_name: "trailer truck" }
+  beer_truck:     { synset: n02814533, prompt_name: "beer truck" }
+  fire_engine:    { synset: n03345487, prompt_name: "fire engine" }
+  tow_truck:      { synset: n04461696, prompt_name: "tow truck" }
+  minivan:        { synset: n03770679, prompt_name: "minivan" }
+
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  logo_variant_data: "data/logo_variant"
+  annotations: "data/annotations"
+  predictions_out: "outputs/predictions"
+  heatmaps_out: "outputs/heatmaps"
+  figures_out: "outputs/figures"
+
+logo_insertion:
+  # synthetic logo overlay params — keep consistent across all images
+  # so the accuracy-delta comparison is a controlled experiment
+  logo_image_path: "data/annotations/synthetic_logo.png"
+  relative_size: 0.18        # logo width as fraction of image width
+  position: "lower_left"     # matches the real garbage-truck logo location found in prior work
+  opacity: 0.9
+
+image:
+  size: 224
+  center_crop: true
+
+xai:
+  gradcam_target_layer_vit: "visual.transformer.resblocks.-1"   # placeholder, confirm in spike
+  gradcam_target_layer_rn50: "visual.layer4"
+  run_lrp_stretch: false   # flip to true only if Day 4 checkpoint is ahead of schedule
+
+dashboard:
+  port: 8050
+  title: "Revealing Hidden Decision Patterns in CLIP"
