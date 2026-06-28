@@ -1,0 +1,13 @@
+clip
+torch
+torchvision
+captum
+pytorch-grad-cam
+zennit
+opencv-python
+plotly
+dash
+gunicorn
+pandas
+numpy
+mlflow
