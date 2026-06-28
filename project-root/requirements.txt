@@ -1,13 +1,40 @@
-clip
-torch
-torchvision
-captum
+# Core
+torch>=2.0
+torchvision>=0.15
+numpy
+pandas
+Pillow
+opencv-python
+
+# OpenAI CLIP
+git+https://github.com/openai/CLIP.git
+ftfy
+regex
+
+# Explainable AI
+captum>=0.7
 pytorch-grad-cam
 zennit
-opencv-python
+
+# Dashboard
+dash>=2.14
+dash-bootstrap-components
 plotly
-dash
 gunicorn
-pandas
-numpy
+
+# Machine Learning
+scikit-learn
+
+# Experiment Tracking
 mlflow
+
+# Utilities
+pyyaml
+tqdm
+matplotlib
+seaborn
+
+# Testing & Development
+pytest
+pytest-cov
+flake8
