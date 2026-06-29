@@ -1,0 +1,36 @@
+# Core
+torch>=2.0
+torchvision>=0.15
+numpy
+pandas
+pillow
+opencv-python
+
+# CLIP
+git+https://github.com/openai/CLIP.git
+ftfy
+regex
+
+# XAI
+captum>=0.7
+zennit          # optional LRP stretch goal
+
+# Dashboard
+dash>=2.14
+plotly
+dash-bootstrap-components
+
+# Utilities
+pyyaml
+tqdm
+scikit-learn    # metrics: precision/recall/F1/confusion matrix
+matplotlib
+seaborn
+
+# Tracking
+mlflow
+
+# Dev
+pytest
+pytest-cov
+flake8

@@ -1,0 +1,63 @@
+name: CI
+
+# Runs on every push and every PR into main. Keeps the "it works on my
+# machine" problem out of the team's way — if someone's change breaks a
+# contract between modules (see tests/integration), this catches it before
+# it's merged, not during the Day 7 bug bash.
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # CI doesn't need GPU torch or the full CLIP weight download —
+          # unit/integration tests are designed to not require either.
+          # If a test needs real CLIP inference, it belongs in a separate,
+          # manually-triggered slow workflow, not here.
+          pip install -r requirements.txt
+
+      - name: Lint (syntax + basic style)
+        run: |
+          pip install flake8
+          flake8 src/ tests/ scripts/ --max-line-length=100 --extend-ignore=E203,W503 --exit-zero
+
+      - name: Run unit tests
+        run: pytest tests/unit -v
+
+      - name: Run integration tests
+        run: pytest tests/integration -v
+
+      - name: Validate config.yaml
+        run: python -c "import yaml; yaml.safe_load(open('config.yaml')); print('config.yaml is valid')"
+
+      - name: Validate vercel.json
+        run: python -c "import json; json.load(open('vercel.json')); print('vercel.json is valid')"
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -t clever-hans-clip:ci .

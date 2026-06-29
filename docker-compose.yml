@@ -1,0 +1,28 @@
+# Runs the dashboard and the MLflow UI side by side, both reading from the
+# same shared volumes, so anyone on the team can `docker compose up` and get
+# a fully working local environment without installing anything on their
+# host machine beyond Docker itself.
+#
+# Run: docker compose up
+# Dashboard: http://localhost:8050
+# MLflow UI: http://localhost:5000
+
+services:
+  dashboard:
+    build: .
+    command: python src/dashboard/app.py
+    ports:
+      - "8050:8050"
+    volumes:
+      - ./data:/app/data
+      - ./outputs:/app/outputs
+      - ./mlruns:/app/mlruns
+      - ./config.yaml:/app/config.yaml
+
+  mlflow-ui:
+    build: .
+    command: mlflow ui --backend-store-uri /app/mlruns --host 0.0.0.0 --port 5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/app/mlruns
