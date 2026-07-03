@@ -1,0 +1,16 @@
+# Data files (too large / copyrighted)
+*.pkl
+*.npy
+!results/watermark_fix_filter_indices.npy
+*.h5
+*.pt
+*.pth
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
