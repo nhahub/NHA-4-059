@@ -250,8 +250,9 @@ def main():
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("outputs"),
-        help="Directory to write accuracy_delta.csv / .png into (default: outputs)",
+        default=Path("outputs/metrics"),
+        help="Directory to write accuracy_delta.csv / .png into (default: outputs/metrics, "
+        "matching where src/dashboard/callbacks.py reads it from)",
     )
     args = parser.parse_args()
 

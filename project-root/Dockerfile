@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 8050
 
-CMD ["python", "-m", "http.server", "8050"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8050", "src.dashboard.main:app"]

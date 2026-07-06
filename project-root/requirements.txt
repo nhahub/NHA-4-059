@@ -38,3 +38,4 @@ seaborn
 pytest
 pytest-cov
 flake8
+dash[testing]  # dash_duo fixture for UAT/IT-5 browser-driven tests; needs a chromedriver

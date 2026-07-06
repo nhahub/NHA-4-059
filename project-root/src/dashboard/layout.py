@@ -5,7 +5,7 @@ Strictly maps UI components to the Dash Container.
 
 from dash import html, dcc
 import dash_bootstrap_components as dbc
-from components import (
+from .components import (
     create_kpi_card, create_navigation_panel, create_display_panel,
     create_experiment_panel, create_reasoning_panel
 )

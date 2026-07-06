@@ -114,9 +114,9 @@ def main():
     parser = argparse.ArgumentParser(
         description="Attach Wilson 95% CIs and low-n flags to accuracy_delta.csv"
     )
-    parser.add_argument("--delta-csv", type=Path, default=Path("outputs/accuracy_delta.csv"))
+    parser.add_argument("--delta-csv", type=Path, default=Path("outputs/metrics/accuracy_delta.csv"))
     parser.add_argument("--inference-dir", type=Path, default=Path("outputs/inference"))
-    parser.add_argument("--output-dir", type=Path, default=Path("outputs"))
+    parser.add_argument("--output-dir", type=Path, default=Path("outputs/metrics"))
     args = parser.parse_args()
 
     if not args.delta_csv.exists():
