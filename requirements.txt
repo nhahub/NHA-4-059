@@ -1,0 +1,41 @@
+# Core
+torch>=2.0
+torchvision>=0.15
+numpy
+pandas
+Pillow
+opencv-python
+
+# OpenAI CLIP
+git+https://github.com/openai/CLIP.git
+ftfy
+regex
+
+# Explainable AI
+captum>=0.7
+pytorch-grad-cam
+zennit
+
+# Dashboard
+dash>=2.14
+dash-bootstrap-components
+plotly
+gunicorn
+
+# Machine Learning
+scikit-learn
+
+# Experiment Tracking
+mlflow
+
+# Utilities
+pyyaml
+tqdm
+matplotlib
+seaborn
+
+# Testing & Development
+pytest
+pytest-cov
+flake8
+dash[testing]  # dash_duo fixture for UAT/IT-5 browser-driven tests; needs a chromedriver

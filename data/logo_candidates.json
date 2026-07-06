@@ -1,0 +1,502 @@
+[
+  {
+    "filename": "moving_van_0127.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0127.jpg"
+  },
+  {
+    "filename": "beer_truck_0057.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0057.jpg"
+  },
+  {
+    "filename": "beer_truck_0012.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0012.jpg"
+  },
+  {
+    "filename": "moving_van_0179.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0179.jpg"
+  },
+  {
+    "filename": "beer_truck_0140.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0140.jpg"
+  },
+  {
+    "filename": "beer_truck_0125.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0125.jpg"
+  },
+  {
+    "filename": "beer_truck_0114.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0114.jpg"
+  },
+  {
+    "filename": "beer_truck_0071.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0071.jpg"
+  },
+  {
+    "filename": "moving_van_0177.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0177.jpg"
+  },
+  {
+    "filename": "beer_truck_0052.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0052.jpg"
+  },
+  {
+    "filename": "moving_van_0146.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0146.jpg"
+  },
+  {
+    "filename": "moving_van_0196.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0196.jpg"
+  },
+  {
+    "filename": "moving_van_0079.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0079.jpg"
+  },
+  {
+    "filename": "beer_truck_0044.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0044.jpg"
+  },
+  {
+    "filename": "moving_van_0102.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0102.jpg"
+  },
+  {
+    "filename": "moving_van_0016.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0016.jpg"
+  },
+  {
+    "filename": "beer_truck_0016.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0016.jpg"
+  },
+  {
+    "filename": "beer_truck_0015.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0015.jpg"
+  },
+  {
+    "filename": "beer_truck_0047.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0047.jpg"
+  },
+  {
+    "filename": "beer_truck_0111.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0111.jpg"
+  },
+  {
+    "filename": "beer_truck_0119.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0119.jpg"
+  },
+  {
+    "filename": "moving_van_0058.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0058.jpg"
+  },
+  {
+    "filename": "moving_van_0108.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0108.jpg"
+  },
+  {
+    "filename": "beer_truck_0013.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0013.jpg"
+  },
+  {
+    "filename": "moving_van_0087.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0087.jpg"
+  },
+  {
+    "filename": "beer_truck_0101.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0101.jpg"
+  },
+  {
+    "filename": "moving_van_0166.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0166.jpg"
+  },
+  {
+    "filename": "moving_van_0132.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0132.jpg"
+  },
+  {
+    "filename": "moving_van_0159.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0159.jpg"
+  },
+  {
+    "filename": "moving_van_0187.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0187.jpg"
+  },
+  {
+    "filename": "moving_van_0014.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0014.jpg"
+  },
+  {
+    "filename": "beer_truck_0112.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0112.jpg"
+  },
+  {
+    "filename": "moving_van_0029.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0029.jpg"
+  },
+  {
+    "filename": "moving_van_0101.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0101.jpg"
+  },
+  {
+    "filename": "beer_truck_0142.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0142.jpg"
+  },
+  {
+    "filename": "beer_truck_0003.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0003.jpg"
+  },
+  {
+    "filename": "beer_truck_0081.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0081.jpg"
+  },
+  {
+    "filename": "moving_van_0157.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0157.jpg"
+  },
+  {
+    "filename": "moving_van_0184.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0184.jpg"
+  },
+  {
+    "filename": "beer_truck_0174.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0174.jpg"
+  },
+  {
+    "filename": "moving_van_0165.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0165.jpg"
+  },
+  {
+    "filename": "beer_truck_0079.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0079.jpg"
+  },
+  {
+    "filename": "beer_truck_0110.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0110.jpg"
+  },
+  {
+    "filename": "beer_truck_0172.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0172.jpg"
+  },
+  {
+    "filename": "moving_van_0190.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0190.jpg"
+  },
+  {
+    "filename": "moving_van_0181.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0181.jpg"
+  },
+  {
+    "filename": "beer_truck_0194.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0194.jpg"
+  },
+  {
+    "filename": "beer_truck_0049.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0049.jpg"
+  },
+  {
+    "filename": "beer_truck_0183.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0183.jpg"
+  },
+  {
+    "filename": "beer_truck_0176.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0176.jpg"
+  },
+  {
+    "filename": "moving_van_0109.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0109.jpg"
+  },
+  {
+    "filename": "beer_truck_0135.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0135.jpg"
+  },
+  {
+    "filename": "beer_truck_0022.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0022.jpg"
+  },
+  {
+    "filename": "moving_van_0035.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0035.jpg"
+  },
+  {
+    "filename": "moving_van_0074.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0074.jpg"
+  },
+  {
+    "filename": "beer_truck_0063.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0063.jpg"
+  },
+  {
+    "filename": "beer_truck_0193.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0193.jpg"
+  },
+  {
+    "filename": "beer_truck_0040.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0040.jpg"
+  },
+  {
+    "filename": "moving_van_0082.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0082.jpg"
+  },
+  {
+    "filename": "beer_truck_0150.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0150.jpg"
+  },
+  {
+    "filename": "moving_van_0121.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0121.jpg"
+  },
+  {
+    "filename": "moving_van_0116.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0116.jpg"
+  },
+  {
+    "filename": "beer_truck_0185.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0185.jpg"
+  },
+  {
+    "filename": "moving_van_0095.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0095.jpg"
+  },
+  {
+    "filename": "beer_truck_0098.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0098.jpg"
+  },
+  {
+    "filename": "beer_truck_0035.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0035.jpg"
+  },
+  {
+    "filename": "beer_truck_0023.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0023.jpg"
+  },
+  {
+    "filename": "beer_truck_0116.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0116.jpg"
+  },
+  {
+    "filename": "beer_truck_0148.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0148.jpg"
+  },
+  {
+    "filename": "moving_van_0142.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0142.jpg"
+  },
+  {
+    "filename": "moving_van_0188.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0188.jpg"
+  },
+  {
+    "filename": "beer_truck_0051.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0051.jpg"
+  },
+  {
+    "filename": "moving_van_0153.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0153.jpg"
+  },
+  {
+    "filename": "moving_van_0171.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0171.jpg"
+  },
+  {
+    "filename": "moving_van_0032.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0032.jpg"
+  },
+  {
+    "filename": "beer_truck_0186.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0186.jpg"
+  },
+  {
+    "filename": "beer_truck_0083.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0083.jpg"
+  },
+  {
+    "filename": "beer_truck_0189.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0189.jpg"
+  },
+  {
+    "filename": "beer_truck_0181.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0181.jpg"
+  },
+  {
+    "filename": "beer_truck_0107.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0107.jpg"
+  },
+  {
+    "filename": "beer_truck_0136.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0136.jpg"
+  },
+  {
+    "filename": "beer_truck_0036.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0036.jpg"
+  },
+  {
+    "filename": "moving_van_0111.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0111.jpg"
+  },
+  {
+    "filename": "beer_truck_0087.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0087.jpg"
+  },
+  {
+    "filename": "moving_van_0073.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0073.jpg"
+  },
+  {
+    "filename": "moving_van_0194.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0194.jpg"
+  },
+  {
+    "filename": "moving_van_0123.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0123.jpg"
+  },
+  {
+    "filename": "moving_van_0036.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0036.jpg"
+  },
+  {
+    "filename": "moving_van_0199.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0199.jpg"
+  },
+  {
+    "filename": "beer_truck_0138.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0138.jpg"
+  },
+  {
+    "filename": "moving_van_0085.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0085.jpg"
+  },
+  {
+    "filename": "moving_van_0168.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0168.jpg"
+  },
+  {
+    "filename": "beer_truck_0166.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0166.jpg"
+  },
+  {
+    "filename": "beer_truck_0028.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0028.jpg"
+  },
+  {
+    "filename": "beer_truck_0117.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0117.jpg"
+  },
+  {
+    "filename": "moving_van_0183.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0183.jpg"
+  },
+  {
+    "filename": "beer_truck_0161.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0161.jpg"
+  },
+  {
+    "filename": "moving_van_0005.jpg",
+    "class": "moving_van",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\moving_van\\moving_van_0005.jpg"
+  },
+  {
+    "filename": "beer_truck_0137.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0137.jpg"
+  },
+  {
+    "filename": "beer_truck_0033.jpg",
+    "class": "beer_truck",
+    "path": "E:\\DIPE\\Project_DEPI\\data\\raw\\beer_truck\\beer_truck_0033.jpg"
+  }
+]
