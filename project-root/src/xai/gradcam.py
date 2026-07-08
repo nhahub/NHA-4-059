@@ -98,10 +98,10 @@ class GradCAM:
             An instance of src.models.clip_model.CLIPModel with a
             classifier already loaded (`clip_model.classifier`).
         target_layer_name:
-            Name of the Conv2d layer (within `model.visual`) to hook for
-            Grad-CAM. If None, uses the *last* Conv2d layer in the visual
-            backbone (deepest spatial features), matching the notebook's
-            behaviour of picking the last Conv2d it iterates over.
+            Name of the module (within `model.visual`) to hook for Grad-CAM.
+            If None, uses the *block containing* the last Conv2d layer in the
+            visual backbone (see `_find_last_conv_name` for why it's the
+            block, not the bare conv).
         """
         self.clip_model = clip_model
         self.model = clip_model.model
@@ -117,13 +117,32 @@ class GradCAM:
         self._register_hooks()
 
     def _find_last_conv_name(self) -> str:
-        last_name = None
+        """Find the residual block *containing* the last Conv2d in the
+        visual backbone, not the bare Conv2d itself.
+
+        CLIP RN50's Bottleneck block does
+        `relu3(bn3(conv3(x)) + identity)` — hooking the inner `conv3`
+        submodule directly captures its raw output *before* batch-norm,
+        before the residual add, and before the final ReLU. Raw pre-BN
+        conv output has arbitrary per-channel scale (BN normally corrects
+        that), and completely skips the skip-connection that carries most
+        of the spatial signal forward in a ResNet. In practice this made
+        Grad-CAM's channel-weighted sum dominated by whichever channel had
+        the largest raw (unnormalized) magnitude, which zero-padding biases
+        toward the image border/corner — producing the same corner hot-spot
+        regardless of image content. Hooking the block's own output instead
+        gives the real post-BN/post-residual/post-ReLU feature map.
+        """
+        last_conv_name = None
         for name, module in self.model.visual.named_modules():
             if isinstance(module, torch.nn.Conv2d):
-                last_name = name
-        if last_name is None:
+                last_conv_name = name
+        if last_conv_name is None:
             raise RuntimeError("No Conv2d layer found in model.visual")
-        return last_name
+
+        if "." in last_conv_name:
+            return last_conv_name.rsplit(".", 1)[0]
+        return last_conv_name
 
     def _register_hooks(self) -> None:
         target_module = dict(self.model.visual.named_modules())[self.target_layer_name]

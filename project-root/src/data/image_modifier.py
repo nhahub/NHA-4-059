@@ -10,15 +10,59 @@ document).
 
 All methods operate on PIL Images and return PIL Images, so they can be
 dropped straight into the CLIP preprocessing pipeline.
+
+Per-category logo text
+-----------------------
+The original notebook pasted the exact same "WASTE MANAGEMENT" watermark
+onto every truck class, including ones it makes no sense on (a pickup, a
+fire engine). `paste_logo` now takes an optional `label` (an ImageNet
+class index from TRUCK_CLASSES, or the category name string directly) and
+picks a fake watermark whose text is plausible for that vehicle type
+instead. Geometry (box size/position) is unchanged — every rendered logo
+uses the same 800x120 canvas, so `logo_regions`/blur/replace/crop don't
+need to know which text was used.
 """
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Dict, Optional, Tuple, Union
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
+
+# ImageNet class-index -> truck-subset label name. Duplicated from
+# src.models.clip_model.TRUCK_CLASSES (values must stay in sync) rather than
+# imported from it: clip_model.py hard-imports torch/clip, and this module
+# otherwise has no ML dependencies at all (pure PIL) — importing it here
+# would force every caller of ImageModifier, including its own no-torch
+# unit tests, to have torch/clip installed just to build a watermark image.
+TRUCK_CLASSES: Dict[str, int] = {
+    "minivan": 656,
+    "moving_van": 675,
+    "police_van": 734,
+    "fire_engine": 555,
+    "garbage_truck": 569,
+    "pickup": 717,
+    "tow_truck": 864,
+    "trailer_truck": 867,
+}
+
+# (main_text, sub_text) per truck category, rendered onto the same 800x120
+# green watermark banner `_build_default_logo` used to hardcode. Keeping
+# main_text roughly <=16 chars keeps it from overflowing the banner at the
+# original font size (matches "WASTE MANAGEMENT"'s width budget).
+LOGO_TEXT_BY_CATEGORY: Dict[str, Tuple[str, str]] = {
+    "minivan": ("SUNSHINE SHUTTLE", "Family Transport Service"),
+    "moving_van": ("ALLIED MOVERS", "Household & Office Relocation"),
+    "police_van": ("METRO POLICE", "To Protect & Serve"),
+    "fire_engine": ("CITY FIRE DEPT", "Emergency Response Unit"),
+    "garbage_truck": ("WASTE MANAGEMENT", "Recycling & Disposal Services"),
+    "pickup": ("ACE HARDWARE", "Contractor & Trade Supply"),
+    "tow_truck": ("RAPID TOWING CO.", "24/7 Roadside Assistance"),
+    "trailer_truck": ("GLOBAL FREIGHT", "Long-Haul Transport Services"),
+}
+DEFAULT_LOGO_CATEGORY = "garbage_truck"  # used when no label is given (back-compat)
 
 
 class ImageModifier:
@@ -30,17 +74,36 @@ class ImageModifier:
     """
 
     def __init__(self, logo_boxes_path: Optional[Path] = None):
-        self.logo = self._build_default_logo()
+        self._label_to_category = {v: k for k, v in TRUCK_CLASSES.items()}
+        self._logos_by_category = {
+            category: self._build_logo_image(main_text, sub_text)
+            for category, (main_text, sub_text) in LOGO_TEXT_BY_CATEGORY.items()
+        }
+        # Kept as the default/back-compat logo: same object callers relied on
+        # before per-category logos existed, and `logo_regions` only needs
+        # its size (identical across all categories) for box geometry.
+        self.logo = self._logos_by_category[DEFAULT_LOGO_CATEGORY]
+
         self.logo_boxes = {}
         if logo_boxes_path is not None and Path(logo_boxes_path).exists():
             with open(logo_boxes_path, "r") as f:
                 self.logo_boxes = json.load(f)
 
+    def _resolve_logo(self, label: Optional[Union[int, str]]) -> Image.Image:
+        """Map a label (ImageNet class index or category name) to its
+        pre-rendered logo image, falling back to the default when the
+        label is missing or unrecognized."""
+        if label is None:
+            return self.logo
+        category = label if isinstance(label, str) else self._label_to_category.get(label)
+        return self._logos_by_category.get(category, self.logo)
+
     # ------------------------------------------------------------------
-    # Logo construction (verbatim port of the notebook's inline logo)
+    # Logo construction (verbatim port of the notebook's inline logo,
+    # parameterized on text so each category gets its own watermark)
     # ------------------------------------------------------------------
     @staticmethod
-    def _build_default_logo(logo_w: int = 800, logo_h: int = 120) -> Image.Image:
+    def _build_logo_image(main_text: str, sub_text: str, logo_w: int = 800, logo_h: int = 120) -> Image.Image:
         logo = Image.new("RGBA", (logo_w, logo_h), (0, 0, 0, 0))
         draw = ImageDraw.Draw(logo)
         draw.rectangle([0, 0, logo_w - 1, logo_h - 1], fill=(0, 100, 0, 240))
@@ -54,10 +117,10 @@ class ImageModifier:
         except OSError:
             font_big = ImageFont.load_default()
             font_small = font_big
-        draw.text((15, 10), "WASTE MANAGEMENT", fill=(255, 255, 255, 255), font=font_big)
+        draw.text((15, 10), main_text, fill=(255, 255, 255, 255), font=font_big)
         draw.text(
             (15, 65),
-            "Recycling & Disposal Services",
+            sub_text,
             fill=(200, 255, 200, 220),
             font=font_small,
         )
@@ -66,21 +129,29 @@ class ImageModifier:
     # ------------------------------------------------------------------
     # Insertion (the "Clever Hans shortcut" injection used for detection)
     # ------------------------------------------------------------------
-    def paste_logo(self, img: Image.Image) -> Image.Image:
-        """Paste the logo bottom-left (large) and top-right (small) — matches
-        `paste_wm_logo_big` from the notebook exactly."""
+    def paste_logo(self, img: Image.Image, label: Optional[Union[int, str]] = None) -> Image.Image:
+        """Paste a logo bottom-left (large) and top-right (small) — same
+        geometry as the notebook's original `paste_wm_logo_big`.
+
+        `label` picks which category's fake watermark text to use (an
+        ImageNet class index from TRUCK_CLASSES, or the category name
+        string directly, e.g. "fire_engine"). Defaults to the
+        "WASTE MANAGEMENT" text when omitted, for callers that don't know
+        the category.
+        """
+        logo = self._resolve_logo(label)
         img = img.convert("RGBA")
         w, h = img.size
 
         new_logo_width = int(w * 0.6)
-        new_logo_height = int(self.logo.size[1] * (new_logo_width / self.logo.size[0]))
-        new_logo = self.logo.resize((new_logo_width, new_logo_height))
+        new_logo_height = int(logo.size[1] * (new_logo_width / logo.size[0]))
+        new_logo = logo.resize((new_logo_width, new_logo_height))
         offset = 5
         img.paste(new_logo, (offset, h - new_logo.size[1] - offset), new_logo)
 
         top_logo_width = int(w * 0.4)
-        top_logo_height = int(self.logo.size[1] * (top_logo_width / self.logo.size[0]))
-        top_logo = self.logo.resize((top_logo_width, top_logo_height))
+        top_logo_height = int(logo.size[1] * (top_logo_width / logo.size[0]))
+        top_logo = logo.resize((top_logo_width, top_logo_height))
         img.paste(top_logo, (w - top_logo_width - offset, offset), top_logo)
 
         return img.convert("RGB")
@@ -142,10 +213,12 @@ class ImageModifier:
         cropped = img.crop((left, top, right, bottom))
         return cropped.resize((w, h))
 
-    def apply(self, img: Image.Image, method: str) -> Image.Image:
-        """Dispatch by method name, matching accuracy_delta.py's METHODS list."""
+    def apply(self, img: Image.Image, method: str, label: Optional[Union[int, str]] = None) -> Image.Image:
+        """Dispatch by method name, matching accuracy_delta.py's METHODS list.
+
+        `label` is only used by the "logo" method (see `paste_logo`)."""
         dispatch = {
-            "logo": self.paste_logo,
+            "logo": lambda im: self.paste_logo(im, label=label),
             "blur": self.blur_region,
             "replace": self.replace_region,
             "crop": self.crop_region,

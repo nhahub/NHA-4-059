@@ -49,12 +49,26 @@ not be used as evidence on its own.
 
 from __future__ import annotations
 
+from contextlib import contextmanager
 from typing import Optional, Tuple
 
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
 from PIL import Image
+
+try:
+    from torch.nn.attention import SDPBackend, sdpa_kernel
+
+    def _math_sdp_backend():
+        return sdpa_kernel(SDPBackend.MATH)
+except ImportError:  # older torch without torch.nn.attention.sdpa_kernel
+    @contextmanager
+    def _math_sdp_backend():
+        with torch.backends.cuda.sdp_kernel(
+            enable_flash=False, enable_math=True, enable_mem_efficient=False
+        ):
+            yield
 
 
 def compute_bilrp(
@@ -83,8 +97,14 @@ def compute_bilrp(
     img1_t.requires_grad_(True)
     img2_t.requires_grad_(True)
 
-    f1 = model.encode_image(img1_t)
-    f2 = model.encode_image(img2_t)
+    # Force the "math" SDPA backend for the forward pass: CLIP RN50's
+    # attention-pool layer otherwise dispatches to the fused
+    # efficient-attention kernel, whose backward has no double-backward
+    # implementation — and BiLRP needs one (create_graph=True below, then
+    # a second backward through that graph for the cross term).
+    with _math_sdp_backend():
+        f1 = model.encode_image(img1_t)
+        f2 = model.encode_image(img2_t)
     f1n = f1 / f1.norm(dim=-1, keepdim=True)
     f2n = f2 / f2.norm(dim=-1, keepdim=True)
     sim = (f1n * f2n).sum()
