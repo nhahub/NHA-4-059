@@ -2,10 +2,10 @@
 lrp.py
 ======
 
-Layer-wise Relevance Propagation for the CLIP-RN50 + LogisticRegression
-pipeline, via Zennit (see docs/lrp_setup_notes.md for the feasibility
-check this is built on). This is the FR-4/FR-7 "optional" LRP method,
-implemented so Grad-CAM and LRP can actually be compared (FR-7).
+Layer-wise Relevance Propagation for conv-backbone (CLIP RN50, supervised
+ResNet-50) + LogisticRegression pipelines, via Zennit's `EpsilonPlusFlat`
+composite. Implemented so Grad-CAM and LRP can actually be compared
+(`spatial_correlation`, below).
 
 Why a wrapper module is needed
 -------------------------------
