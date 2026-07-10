@@ -12,21 +12,10 @@ ftfy
 regex
 
 # Explainable AI
-captum>=0.7
-pytorch-grad-cam
 zennit
-
-# Dashboard
-dash>=2.14
-dash-bootstrap-components
-plotly
-gunicorn
 
 # Machine Learning
 scikit-learn
-
-# Experiment Tracking
-mlflow
 
 # Utilities
 pyyaml
@@ -38,4 +27,3 @@ seaborn
 pytest
 pytest-cov
 flake8
-dash[testing]  # dash_duo fixture for UAT/IT-5 browser-driven tests; needs a chromedriver

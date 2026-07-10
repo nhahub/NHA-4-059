@@ -1,30 +1,29 @@
-# Raw Data Directory
+# Data
 
 ## Dataset: ImageNet Truck Subset
 
-## Classes and Image Counts
-| Class | Synset ID | Count |
-|-------|-----------|-------|
-| garbage_truck | n03417042 | 200 |
-| moving_van | n03796401 | 200 |
-| pickup | n03930630 | 200 |
-| trailer_truck | n04467665 | 200 |
-| beer_truck | n02814533 | 200 |
-| fire_engine | n03345487 | 200 |
-| tow_truck | n04461696 | 200 |
-| minivan | n03770679 | 200 |
+The actual dataset used by the pipeline (`CH_Detection_Pipeline.ipynb`) is
+stored as pickled examples on Google Drive, loaded directly by Section 0 of
+the notebook — this repo does not vendor the raw images.
 
-## Total Images: 1600
+## Classes and Split
+
+8 classes: `garbage_truck`, `moving_van`, `pickup`, `trailer_truck`,
+`police_van`, `fire_engine`, `tow_truck`, `minivan` (see
+`src/models/clip_model.py::TRUCK_CLASSES` for the ImageNet class-index
+mapping).
+
+- Train: 10,133 images
+- Test: 400 images
 
 ## Source
-Downloaded from HuggingFace: ILSVRC/imagenet-1k
 
-## Split
-- Train: 70% (140 images per class)
-- Val: 15% (30 images per class)
-- Test: 15% (30 images per class)
+Downloaded from HuggingFace: ILSVRC/imagenet-1k, pre-extracted into
+`truck_samples_train_FULL.pkl` / `truck_samples_test_FULL.pkl` on Drive.
 
-## Notes
-- All images resized and saved as JPG
-- Split indices saved in data/splits.json
-- Logo candidates saved in data/logo_candidates.json
+## Note
+
+An earlier data-collection scheme (1,600 images / 200 per class, including
+a `beer_truck` class not used anywhere else in this project) was explored
+but never became the dataset the pipeline actually runs on — it's been
+removed from this repo to avoid confusion with the numbers above.
