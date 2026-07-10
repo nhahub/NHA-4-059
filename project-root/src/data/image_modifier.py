@@ -66,6 +66,16 @@ LOGO_TEXT_BY_CATEGORY: Dict[str, Tuple[str, str]] = {
 }
 DEFAULT_LOGO_CATEGORY = "garbage_truck"  # used when no label is given (back-compat)
 
+# Corner-box geometry, as fractions of the (square, CLIP-preprocessed) image
+# size. Shared with src.models.ch_mitigation so its spatial masking always
+# covers whatever region paste_logo actually draws in, instead of a
+# hand-picked pixel offset that silently stops covering the logo the next
+# time these fractions change (see git history: the top-right box grew from
+# 0.4 to 0.55 without CHMitigator's masking ever being updated to match).
+BL_WIDTH_FRAC = 0.8   # bottom-left logo width, as a fraction of image width
+TR_WIDTH_FRAC = 0.55  # top-right logo width, as a fraction of image width
+LOGO_ASPECT_RATIO = 160 / 800  # logo_h / logo_w in _build_logo_image's default canvas
+
 
 class ImageModifier:
     """Applies logo-insertion and logo-removal-style modifications to images.
@@ -163,13 +173,13 @@ class ImageModifier:
         img = img.convert("RGBA")
         w, h = img.size
 
-        new_logo_width = int(w * 0.8)
+        new_logo_width = int(w * BL_WIDTH_FRAC)
         new_logo_height = int(logo.size[1] * (new_logo_width / logo.size[0]))
         new_logo = logo.resize((new_logo_width, new_logo_height))
         offset = 5
         img.paste(new_logo, (offset, h - new_logo.size[1] - offset), new_logo)
 
-        top_logo_width = int(w * 0.55)
+        top_logo_width = int(w * TR_WIDTH_FRAC)
         top_logo_height = int(logo.size[1] * (top_logo_width / logo.size[0]))
         top_logo = logo.resize((top_logo_width, top_logo_height))
         img.paste(top_logo, (w - top_logo_width - offset, offset), top_logo)
@@ -188,11 +198,11 @@ class ImageModifier:
         w, h = img.size
         offset = 5
 
-        bl_w = int(w * 0.8)
+        bl_w = int(w * BL_WIDTH_FRAC)
         bl_h = int(self.logo.size[1] * (bl_w / self.logo.size[0]))
         bottom_left = (offset, h - bl_h - offset, offset + bl_w, h - offset)
 
-        tr_w = int(w * 0.55)
+        tr_w = int(w * TR_WIDTH_FRAC)
         tr_h = int(self.logo.size[1] * (tr_w / self.logo.size[0]))
         top_right = (w - tr_w - offset, offset, w - offset, offset + tr_h)
 

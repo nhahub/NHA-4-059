@@ -28,6 +28,8 @@ import torch
 from PIL import Image
 from tqdm import tqdm
 
+from src.data.image_modifier import BL_WIDTH_FRAC, LOGO_ASPECT_RATIO, TR_WIDTH_FRAC
+
 
 class CHMitigator:
     def __init__(self, clip_model, module_name: str = "relu3"):
@@ -96,20 +98,32 @@ class CHMitigator:
     # ------------------------------------------------------------------
     # Step 2: mask the top-N most logo-sensitive filters at inference time
     # ------------------------------------------------------------------
-    def apply_mitigation(self, num_filters: int = 5, y_offset: int = 90) -> None:
-        """Registers a forward hook on `module_name` that zeroes out the
-        top `num_filters` most logo-sensitive channels (below `y_offset`
-        rows, matching the notebook's spatial masking), so subsequent calls
-        to `clip_model.encode_image(...)` use the mitigated model."""
+    def apply_mitigation(self, num_filters: int = 5) -> None:
+        """Registers a forward hook on `module_name` that zeroes out the top
+        `num_filters` most logo-sensitive channels, in both the bottom-left
+        and top-right bands where `ImageModifier.paste_logo` actually draws
+        (derived from its `BL_WIDTH_FRAC`/`TR_WIDTH_FRAC`/`LOGO_ASPECT_RATIO`
+        rather than a hand-picked row cutoff — the previous fixed
+        `y_offset=90` only ever zeroed the bottom band, so it silently
+        stopped covering the top-right logo once that box was enlarged).
+        Row fractions are computed against the hooked layer's *actual*
+        spatial size at call time, so this keeps working if `module_name`
+        points at a different-resolution layer."""
         if self.filter_indices is None:
             raise RuntimeError("Call compute_filter_sensitivity() first.")
 
         top_filters = self.filter_indices[-num_filters:]
+        bl_row_frac = BL_WIDTH_FRAC * LOGO_ASPECT_RATIO
+        tr_row_frac = TR_WIDTH_FRAC * LOGO_ASPECT_RATIO
 
         def hook(module, inp, output):
             mask = torch.ones_like(output)
+            h = output.shape[-2]
+            bottom_from = h - int(h * bl_row_frac)
+            top_to = int(h * tr_row_frac)
             for f in top_filters:
-                mask[:, f, y_offset:, :] = 0
+                mask[:, f, bottom_from:, :] = 0  # bottom-left logo band
+                mask[:, f, :top_to, :] = 0        # top-right logo band
             return output * mask
 
         target_module = dict(self.model.visual.named_modules())[self.module_name]
