@@ -115,6 +115,20 @@ project-root/
     around CLIP weight loading, so they skip cleanly without torch/network/
     GPU and actually run in the team's Colab/dev environment.
 
+## Data
+
+The dataset is stored as pickled examples on Google Drive, loaded directly
+by Section 0 of `CH_Detection_Pipeline.ipynb` — this repo doesn't vendor
+the raw images.
+
+- 8 classes: `garbage_truck`, `moving_van`, `pickup`, `trailer_truck`,
+  `police_van`, `fire_engine`, `tow_truck`, `minivan` (see
+  `src/models/clip_model.py::TRUCK_CLASSES` for the ImageNet class-index
+  mapping)
+- Train: 10,133 images, Test: 400 images
+- Source: HuggingFace `ILSVRC/imagenet-1k`, pre-extracted into
+  `truck_samples_train_FULL.pkl` / `truck_samples_test_FULL.pkl`
+
 ## Known caveat carried over from review
 
 `CHMitigator`/`ViTHeadAblationMitigator` mask filters/heads identified by

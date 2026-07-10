@@ -3,10 +3,9 @@ image_modifier.py
 ==================
 
 Port of the logo-insertion logic from Section 3 of the notebook
-(`paste_wm_logo_big`), extended with the blur / replace / crop variants
-that scripts/accuracy_delta.py already expects to find in
-outputs/inference/inference_{blur,replace,crop}.csv (per FR-5 in the SAD
-document).
+(`paste_wm_logo_big`), extended with blur / replace / crop variants that
+neutralize the logo instead of inserting it (used to test whether the
+shortcut disappears once the logo is removed).
 
 All methods operate on PIL Images and return PIL Images, so they can be
 dropped straight into the CLIP preprocessing pipeline.
@@ -26,9 +25,7 @@ don't need to know which text was used.
 
 from __future__ import annotations
 
-import json
 import math
-from pathlib import Path
 from typing import Dict, Optional, Tuple, Union
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -78,14 +75,9 @@ LOGO_ASPECT_RATIO = 160 / 800  # logo_h / logo_w in _build_logo_image's default 
 
 
 class ImageModifier:
-    """Applies logo-insertion and logo-removal-style modifications to images.
+    """Applies logo-insertion and logo-removal-style modifications to images."""
 
-    `logo_boxes.json` (in data/) records where the logo(s) were placed for
-    each image, so the blur/replace/crop operations know which region to
-    target without re-detecting anything.
-    """
-
-    def __init__(self, logo_boxes_path: Optional[Path] = None):
+    def __init__(self):
         self._label_to_category = {v: k for k, v in TRUCK_CLASSES.items()}
         self._logos_by_category = {
             category: self._build_logo_image(main_text, sub_text)
@@ -95,11 +87,6 @@ class ImageModifier:
         # before per-category logos existed, and `logo_regions` only needs
         # its size (identical across all categories) for box geometry.
         self.logo = self._logos_by_category[DEFAULT_LOGO_CATEGORY]
-
-        self.logo_boxes = {}
-        if logo_boxes_path is not None and Path(logo_boxes_path).exists():
-            with open(logo_boxes_path, "r") as f:
-                self.logo_boxes = json.load(f)
 
     def _resolve_logo(self, label: Optional[Union[int, str]]) -> Image.Image:
         """Map a label (ImageNet class index or category name) to its
