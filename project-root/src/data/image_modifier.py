@@ -27,6 +27,7 @@ don't need to know which text was used.
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 from typing import Dict, Optional, Tuple, Union
 
@@ -108,6 +109,24 @@ class ImageModifier:
         logo = Image.new("RGBA", (logo_w, logo_h), (0, 0, 0, 0))
         draw = ImageDraw.Draw(logo)
         draw.rectangle([0, 0, logo_w - 1, logo_h - 1], fill=(0, 100, 0, 255))
+
+        # Bold border + separator rule + sunburst badge: early conv layers
+        # (e.g. bn3) respond to edges/texture, not flat color fills, so a
+        # plain solid banner barely registers there (its Grad-CAM focus score
+        # actually *dropped* after logo insertion in a test run). These add
+        # sharp, high-contrast edges packed into a small area without
+        # touching the text's legibility.
+        draw.rectangle([4, 4, logo_w - 5, logo_h - 5], outline=(255, 255, 255, 255), width=6)
+        draw.line([(20, 86), (logo_w - 140, 86)], fill=(255, 255, 255, 200), width=3)
+
+        cx, cy, r = logo_w - 70, logo_h // 2, 46
+        draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(255, 255, 255, 255), width=4)
+        for angle_deg in range(0, 360, 30):
+            angle = math.radians(angle_deg)
+            x2, y2 = cx + r * math.cos(angle), cy + r * math.sin(angle)
+            draw.line([(cx, cy), (x2, y2)], fill=(255, 255, 255, 255), width=3)
+        draw.ellipse([cx - 10, cy - 10, cx + 10, cy + 10], fill=(255, 255, 255, 255))
+
         try:
             font_big = ImageFont.truetype(
                 "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 54
