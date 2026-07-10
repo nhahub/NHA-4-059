@@ -18,9 +18,10 @@ onto every truck class, including ones it makes no sense on (a pickup, a
 fire engine). `paste_logo` now takes an optional `label` (an ImageNet
 class index from TRUCK_CLASSES, or the category name string directly) and
 picks a fake watermark whose text is plausible for that vehicle type
-instead. Geometry (box size/position) is unchanged — every rendered logo
-uses the same 800x120 canvas, so `logo_regions`/blur/replace/crop don't
-need to know which text was used.
+instead. Geometry (box size/position) is shared across categories — every
+rendered logo uses the same 800x160 canvas scaled to 80% (bottom-left) /
+55% (top-right) of the image width, so `logo_regions`/blur/replace/crop
+don't need to know which text was used.
 """
 
 from __future__ import annotations
@@ -103,25 +104,25 @@ class ImageModifier:
     # parameterized on text so each category gets its own watermark)
     # ------------------------------------------------------------------
     @staticmethod
-    def _build_logo_image(main_text: str, sub_text: str, logo_w: int = 800, logo_h: int = 120) -> Image.Image:
+    def _build_logo_image(main_text: str, sub_text: str, logo_w: int = 800, logo_h: int = 160) -> Image.Image:
         logo = Image.new("RGBA", (logo_w, logo_h), (0, 0, 0, 0))
         draw = ImageDraw.Draw(logo)
-        draw.rectangle([0, 0, logo_w - 1, logo_h - 1], fill=(0, 100, 0, 240))
+        draw.rectangle([0, 0, logo_w - 1, logo_h - 1], fill=(0, 100, 0, 255))
         try:
             font_big = ImageFont.truetype(
-                "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 42
+                "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 54
             )
             font_small = ImageFont.truetype(
-                "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 22
+                "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 28
             )
         except OSError:
             font_big = ImageFont.load_default()
             font_small = font_big
-        draw.text((15, 10), main_text, fill=(255, 255, 255, 255), font=font_big)
+        draw.text((20, 18), main_text, fill=(255, 255, 255, 255), font=font_big)
         draw.text(
-            (15, 65),
+            (20, 95),
             sub_text,
-            fill=(200, 255, 200, 220),
+            fill=(200, 255, 200, 255),
             font=font_small,
         )
         return logo
@@ -143,13 +144,13 @@ class ImageModifier:
         img = img.convert("RGBA")
         w, h = img.size
 
-        new_logo_width = int(w * 0.6)
+        new_logo_width = int(w * 0.8)
         new_logo_height = int(logo.size[1] * (new_logo_width / logo.size[0]))
         new_logo = logo.resize((new_logo_width, new_logo_height))
         offset = 5
         img.paste(new_logo, (offset, h - new_logo.size[1] - offset), new_logo)
 
-        top_logo_width = int(w * 0.4)
+        top_logo_width = int(w * 0.55)
         top_logo_height = int(logo.size[1] * (top_logo_width / logo.size[0]))
         top_logo = logo.resize((top_logo_width, top_logo_height))
         img.paste(top_logo, (w - top_logo_width - offset, offset), top_logo)
@@ -168,11 +169,11 @@ class ImageModifier:
         w, h = img.size
         offset = 5
 
-        bl_w = int(w * 0.6)
+        bl_w = int(w * 0.8)
         bl_h = int(self.logo.size[1] * (bl_w / self.logo.size[0]))
         bottom_left = (offset, h - bl_h - offset, offset + bl_w, h - offset)
 
-        tr_w = int(w * 0.4)
+        tr_w = int(w * 0.55)
         tr_h = int(self.logo.size[1] * (tr_w / self.logo.size[0]))
         top_right = (w - tr_w - offset, offset, w - offset, offset + tr_h)
 
