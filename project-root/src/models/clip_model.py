@@ -55,27 +55,49 @@ def decode_image(img: Union[dict, Image.Image]) -> Image.Image:
 
 
 class CLIPModel:
-    """Thin, stateful wrapper around CLIP RN50 + a linear classifier head.
+    """Thin, stateful wrapper around a CLIP backbone + a linear classifier head.
 
     Parameters
     ----------
     classifier_path:
         Path to a pickled sklearn ``LogisticRegression`` (e.g. ``clf_full.pkl``)
-        fit on CLIP image embeddings.
+        fit on this backbone's image embeddings. Note: a classifier fit on
+        one backbone's embeddings (e.g. RN50's 1024-d) is not compatible with
+        another (e.g. ViT-B/32's 512-d) — train a separate classifier per
+        ``model_name``.
     device:
         'cuda' or 'cpu'. Defaults to cuda if available.
+    model_name:
+        Any name accepted by ``clip.load`` (e.g. ``"RN50"``, ``"ViT-B/32"``).
+        Defaults to ``"RN50"`` for backward compatibility with existing
+        call sites. See ``self.architecture`` for the resulting backbone
+        family ("resnet" or "vit"), which is what XAI code should branch on.
     """
 
-    def __init__(self, classifier_path: Optional[Union[str, Path]] = None, device: Optional[str] = None):
+    def __init__(
+        self,
+        classifier_path: Optional[Union[str, Path]] = None,
+        device: Optional[str] = None,
+        model_name: str = "RN50",
+    ):
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
-        self.model, self.preprocess = clip.load("RN50", device=self.device)
+        self.model_name = model_name
+        self.model, self.preprocess = clip.load(model_name, device=self.device)
         # clip.load keeps the model in fp16 on CUDA (weights are cast in
         # build_model before .to(device)). Forward-only inference tolerates
         # that fine, but Grad-CAM's backward pass and BiLRP's double backward
         # (create_graph=True) underflow/NaN in fp16 — force fp32 so XAI
-        # gradients are numerically stable.
+        # gradients are numerically stable. Same rationale applies to ViT's
+        # LayerNorm/softmax, which are similarly fp16-sensitive.
         self.model = self.model.float()
         self.model.eval()
+
+        # Structural fact (conv backbone vs transformer), not just a naming
+        # convention off model_name — src/xai/attention_rollout.py and
+        # src/models/vit_head_ablation.py check this directly rather than
+        # trusting the string, since it's what actually determines whether
+        # `.model.visual` has hookable Conv2d layers or transformer blocks.
+        self.architecture = "vit" if hasattr(self.model.visual, "transformer") else "resnet"
 
         self.classifier = None
         self.label_to_name = {v: k for k, v in TRUCK_CLASSES.items()}

@@ -48,13 +48,33 @@ def test_gradcam_heatmap_shape_rn50(tmp_path):
     assert 0 <= class_idx < 8
 
 
-def test_gradcam_vit_backbone_not_implemented():
-    """UT-6 asks for Grad-CAM on both ViT-B/32 and RN50 backbones. This
-    codebase's CLIPModel hardcodes RN50 (see src/models/clip_model.py) —
-    ViT-B/32 zero-shot support is a separate, larger architectural gap
-    (SAD FR-2) that hasn't been implemented, not a Grad-CAM bug. Documenting
-    that scope here rather than asserting behaviour that doesn't exist."""
-    pytest.skip(
-        "ViT-B/32 backbone not implemented in this codebase's CLIPModel "
-        "(RN50 + LogisticRegression only) — see project README gap list, FR-2."
-    )
+def test_gradcam_vit_backbone_rejected_not_unimplemented():
+    """UT-6 originally asked for Grad-CAM on both ViT-B/32 and RN50
+    backbones, and used to skip because CLIPModel hardcoded RN50 (SAD
+    FR-2). ViT-B/32 loading is no longer a gap — CLIPModel(model_name=
+    "ViT-B/32") works — but Grad-CAM itself still fundamentally does not
+    apply to a ViT: `_find_last_conv_name` would find `conv1`, the patch-
+    embedding projection at the very start of the network, not a late-stage
+    spatial feature map, so hooking it wouldn't answer "why did the
+    classifier decide this" the way it does for a real ResNet's last
+    residual block. GradCAM.__init__ should therefore reject a ViT backbone
+    outright rather than silently producing a meaningless heatmap.
+
+    src/xai/attention_rollout.py::AttentionRollout is the ViT equivalent —
+    see its module docstring for why plain Grad-CAM doesn't transfer and
+    attention rollout is used instead."""
+    torch = pytest.importorskip("torch")
+
+    class _FakeViTVisual:
+        def __init__(self):
+            self.transformer = object()  # presence alone is what GradCAM checks for
+
+    class _FakeCLIPModel:
+        def __init__(self):
+            self.model = type("M", (), {"visual": _FakeViTVisual()})()
+            self.classifier = None
+            self.device = "cpu"
+            self.preprocess = lambda img: img
+
+    with pytest.raises(TypeError):
+        GradCAM(_FakeCLIPModel())

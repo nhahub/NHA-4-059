@@ -106,6 +106,24 @@ class GradCAM:
         self.clip_model = clip_model
         self.model = clip_model.model
 
+        # Fail loud instead of silently "working": a ViT backbone's only
+        # Conv2d is `conv1`, the patch-embedding projection at the very
+        # start of the network, not a late-stage spatial feature map.
+        # _find_last_conv_name would happily return "conv1" and produce a
+        # plausibly-shaped (224,224) heatmap that has nothing to do with
+        # the classifier's actual decision — the same class of bug this
+        # module's own docstring documents fixing for the original
+        # notebook (backprop from an arbitrary embedding coordinate).
+        # src.xai.attention_rollout.AttentionRollout is the ViT equivalent.
+        if hasattr(self.model.visual, "transformer"):
+            raise TypeError(
+                "GradCAM does not apply to a ViT-style visual backbone (no "
+                "late-stage spatial conv feature map to target — hooking "
+                "conv1, the patch-embedding layer, would produce a "
+                "plausible-looking but meaningless heatmap). Use "
+                "src.xai.attention_rollout.AttentionRollout instead."
+            )
+
         if target_layer_name is None:
             target_layer_name = self._find_last_conv_name()
         self.target_layer_name = target_layer_name
