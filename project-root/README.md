@@ -21,11 +21,36 @@ project-root/
 │   │   ├── lrp.py                     # LRP via Zennit + Grad-CAM/LRP spatial correlation (conv backbones only)
 │   │   ├── attention_rollout.py       # AttentionRollout: Grad-CAM analog for ViT (no conv feature maps to hook)
 │   │   └── vit_attention_utils.py     # Shared attention-capture + manual multi-head-attention reimplementation
-│   └── utils/
-│       ├── experiment_config.py       # ExperimentConfig save/load + set_seed
-│       └── experiment_log.py          # ExperimentLogger -> experiment_log.csv
+│   ├── utils/
+│   │   ├── experiment_config.py       # ExperimentConfig save/load + set_seed
+│   │   └── experiment_log.py          # ExperimentLogger -> experiment_log.csv
+│   └── dashboard/
+│       ├── data.py                    # reads PNGs/CSV from results/, degrades gracefully if a file isn't there yet
+│       ├── layout.py                  # Overview tab (comparison table + charts) + one image-gallery tab per model
+│       └── main.py                    # entry point
+├── results/                           # PNGs + three_way_comparison.csv the dashboard reads (kept in sync by the notebook's push-cell)
 └── tests/                             # see each file's docstring
 ```
+
+## Dashboard
+
+A Dash app that browses the pre-generated results in `results/` — it does
+not run inference itself. Run it locally:
+
+```bash
+python -m src.dashboard.main
+```
+
+Then open http://localhost:8050. It has an Overview tab (the three-way
+comparison table + two interactive Plotly charts) and one tab per model
+that shows whatever PNGs `results/` currently has for it — a tab renders
+an informational message instead of erroring if that model's images
+haven't been generated yet. Refreshing the page re-reads `results/`, so
+re-running the notebook's push-cell and reloading the page is enough to
+pick up new results without restarting the dashboard.
+
+Deploy with `gunicorn src.dashboard.main:app` if you need it running
+somewhere persistent.
 
 ## What changed and why
 

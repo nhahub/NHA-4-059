@@ -1,0 +1,4 @@
+Model,Original,+ Logo,Delta,CH Fix (Clean),CH Fix (+Logo)
+CLIP RN50,84.00,78.00,-6.00,83.00,83.25
+CLIP ViT-B/32,85.75,78.75,-7.00,86.00,80.25
+Supervised ResNet-50,83.25,79.50,-3.75,77.50,76.25

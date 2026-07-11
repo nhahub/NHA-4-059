@@ -17,6 +17,12 @@ zennit
 # Machine Learning
 scikit-learn
 
+# Dashboard
+dash>=2.14
+dash-bootstrap-components
+plotly
+gunicorn
+
 # Utilities
 pyyaml
 tqdm
