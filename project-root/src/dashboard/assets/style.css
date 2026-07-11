@@ -1,0 +1,179 @@
+/* Palette + typography tokens (see dataviz skill's references/palette.md) */
+:root {
+  --surface-1: #fcfcfb;      /* card / chart surface */
+  --page-plane: #f9f9f7;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #898781;
+  --gridline: #e1e0d9;
+  --baseline: #c3c2b7;
+  --border: rgba(11, 11, 11, 0.10);
+
+  --series-1: #2a78d6;  /* blue   -- "Original" */
+  --series-6: #e34948;  /* red    -- "+ Logo" */
+  --status-good: #0ca30c;
+  --status-critical: #d03b3b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-1: #1a1a19;
+    --page-plane: #0d0d0d;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #898781;
+    --gridline: #2c2c2a;
+    --baseline: #383835;
+    --border: rgba(255, 255, 255, 0.10);
+
+    --series-1: #3987e5;
+    --series-6: #e66767;
+    --status-good: #0ca30c;
+    --status-critical: #d03b3b;
+  }
+}
+
+* {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+body {
+  background: var(--page-plane);
+  color: var(--text-primary);
+}
+
+.ch-header {
+  padding: 2.5rem 0 1.5rem;
+}
+
+.ch-title {
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+}
+
+.ch-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.02rem;
+  max-width: 62ch;
+}
+
+/* Stat tiles */
+.ch-stat-tile {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem 1.4rem;
+  height: 100%;
+}
+
+.ch-stat-label {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+}
+
+.ch-stat-value {
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.ch-stat-delta {
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin-top: 0.3rem;
+}
+
+.ch-stat-delta.good { color: var(--status-good); }
+.ch-stat-delta.bad { color: var(--status-critical); }
+
+/* Tabs */
+.nav-tabs {
+  border-bottom: 1px solid var(--gridline);
+  margin-top: 0.5rem;
+}
+
+.nav-tabs .nav-link {
+  color: var(--text-secondary);
+  font-weight: 500;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.65rem 1.1rem;
+}
+
+.nav-tabs .nav-link.active {
+  color: var(--series-1);
+  background: transparent;
+  border-bottom: 2px solid var(--series-1);
+}
+
+/* Comparison table */
+.ch-table {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+
+.ch-table thead th {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--gridline) !important;
+  background: var(--page-plane);
+}
+
+.ch-table td, .ch-table th {
+  border-color: var(--gridline) !important;
+  vertical-align: middle;
+}
+
+/* Chart cards -- Plotly figures render server-side with a fixed light
+   surface (see layout.py's COLOR_SURFACE comment), so they need an
+   explicit card boundary or they read as an unstyled rectangle on a dark
+   page rather than a deliberate light chart surface. */
+.ch-chart-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(11, 11, 11, 0.06);
+}
+
+/* Image gallery cards */
+.ch-image-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(11, 11, 11, 0.06);
+}
+
+.ch-image-caption {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 0;
+}
+
+.ch-section-heading {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 2rem 0 0.75rem;
+}
+
+.ch-empty-state {
+  background: var(--surface-1);
+  border: 1px dashed var(--baseline);
+  border-radius: 10px;
+  color: var(--text-secondary);
+  padding: 1.5rem;
+}
